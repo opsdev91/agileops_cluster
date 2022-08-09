@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: longhorn.aandd.io
+  namespace: longhorn-system
+  annotations:
+    konghq.com/plugins: longhorn-auth
+spec:
+  ingressClassName: kong
+  rules:
+  - host: longhorn.aandd.io
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: longhorn-frontend
+            port:
+              number: 80

@@ -1,0 +1,25 @@
+---
+apiVersion: kibana.k8s.elastic.co/v1
+kind: Kibana
+metadata:
+  name: elk-dashboard-v7
+spec:
+  version: 7.17.4
+  http:
+    tls:
+      selfSignedCertificate:
+        disabled: true
+  count: 1
+  elasticsearchRef:
+    name: "elk-cluster-v7"
+  podTemplate:
+    spec:
+      containers:
+      - name: kibana
+        env:
+          - name: NODE_OPTIONS
+            value: "--max-old-space-size=2048"
+        resources:
+          requests:
+            memory: 1Gi
+            cpu: 0.5

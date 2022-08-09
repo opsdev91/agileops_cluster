@@ -1,0 +1,28 @@
+---
+apiVersion: elasticsearch.k8s.elastic.co/v1
+kind: Elasticsearch
+metadata:
+  name: elk-cluster-v7
+spec:
+  version: 7.17.4
+  http:
+    tls:
+      selfSignedCertificate:
+        disabled: true
+  volumeClaimDeletePolicy: DeleteOnScaledownOnly
+  nodeSets:
+  - name: default
+    count: 1
+    config:
+      node.store.allow_mmap: false
+    volumeClaimTemplates:
+    - metadata:
+        name: elasticsearch-data # Do not change this name unless you set up a volume mount for the data path.
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 5Gi
+        storageClassName: cstor-csi-disk
+

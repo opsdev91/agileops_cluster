@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: crictl
+spec:
+  securityContext:
+    runAsUser: 1000
+    fsGroup: 2000
+
+  containers:
+  - name: crictl
+    image: rancher/crictl:v1.17.0
+    command: ['sleep', '3600']
+    securityContext:
+      privileged: true

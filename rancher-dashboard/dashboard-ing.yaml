@@ -1,0 +1,19 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dashboard158.aandd.io
+  namespace: cattle-system
+spec:
+  ingressClassName: kong
+  rules:
+  - host: dashboard158.aandd.io
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: rancher
+            port:
+              number: 80

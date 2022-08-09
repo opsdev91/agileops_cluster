@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: practice.aandd.io
+  namespace: practice
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  ingressClassName: kong
+  tls:
+  - secretName: practice.aandd.io
+    hosts:
+    - practice.aandd.io
+  rules:
+  - host: practice.aandd.io
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: echo
+            port:
+              number: 80

@@ -1,0 +1,40 @@
+# SOURCE: https://install.portworx.com/?operator=true&mc=false&kbver=&oem=esse&user=b4629230-1d93-47fb-bec7-fcc007f201f6&b=true&s=%2Fdev%2Fvdb&c=k3s-158-f5656c01-8529-4a53-aa33-d112f04ba798&stork=true&csi=true&mon=true&tel=false&st=k8s&promop=true
+kind: StorageCluster
+apiVersion: core.libopenstorage.org/v1
+metadata:
+  name: k3s-158-f5656c01-8529-4a53-aa33-d112f04ba798
+  namespace: kube-system
+  annotations:
+    portworx.io/install-source: "https://install.portworx.com/?operator=true&mc=false&kbver=&oem=esse&user=b4629230-1d93-47fb-bec7-fcc007f201f6&b=true&s=%2Fdev%2Fvdb&c=k3s-158-f5656c01-8529-4a53-aa33-d112f04ba798&stork=true&csi=true&mon=true&tel=false&st=k8s&promop=true"
+    portworx.io/misc-args: "--oem esse"
+spec:
+  image: portworx/oci-monitor:2.10.3
+  imagePullPolicy: Always
+  kvdb:
+    internal: true
+  storage:
+    devices:
+    - /dev/vdb
+  secretsProvider: k8s
+  stork:
+    enabled: true
+    args:
+      webhook-controller: "true"
+  autopilot:
+    enabled: true
+  monitoring:
+    prometheus:
+      enabled: true
+      exportMetrics: true
+  csi:
+    enabled: true
+    installSnapshotController: false
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: px-essential
+  namespace: kube-system
+data:
+  px-essen-user-id: YjQ2MjkyMzAtMWQ5My00N2ZiLWJlYzctZmNjMDA3ZjIwMWY2
+  px-osb-endpoint: aHR0cHM6Ly9weGVzc2VudGlhbHMucG9ydHdvcnguY29tL29zYi9iaWxsaW5nL3YxL3JlZ2lzdGVy

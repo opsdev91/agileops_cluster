@@ -1,0 +1,39 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ printf "%s-cron" .Chart.Name }}
+  labels:
+    app: {{ printf "%s" .Chart.Name }}
+spec:
+  schedule: "0 */6 * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 5
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          serviceAccountName: {{ printf "%s-svc" .Chart.Name }}
+          containers:
+            - name: ecr-renew
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              env:
+                - name: DOCKER_SECRET_NAME
+                  value: {{ .Values.env.dockerSecretName }}
+                - name: TARGET_NAMESPACE
+                  value: {{ .Values.env.targetNamespace }}
+                - name: AWS_REGION
+                  value: {{ .Values.aws.region }}
+                - name: AWS_ACCESS_KEY_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "ecr-renew.fullname" . }}
+                      key: ID
+                - name: AWS_SECRET_ACCESS_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "ecr-renew.fullname" . }}
+                      key: SECRET
+                - name: DOCKER_REGISTRIES 
+                  value: {{ .Values.aws.registries }}

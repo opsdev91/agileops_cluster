@@ -1,0 +1,35 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: elkv7
+spec:
+  ingressClassName: kong
+  rules:
+  - host: elkv7.aandd.io
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: elk-cluster-v7-es-default
+            port:
+              number: 9200
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kibanav7
+spec:
+  ingressClassName: kong
+  rules:
+  - host: kibanav7.aandd.io
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: elk-dashboard-v7-kb-http
+            port:
+              number: 5601

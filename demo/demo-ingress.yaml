@@ -1,0 +1,101 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: inclusive-shop.aandd.io
+  namespace: demo
+spec:
+  ingressClassName: kong
+  rules:
+  - host: inclusive-shop.aandd.io
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: inclusive-shop
+            port:
+              number: 80
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: afterpay-money.aandd.io
+  namespace: demo
+spec:
+  ingressClassName: kong
+  rules:
+  - host: afterpay-money.aandd.io
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: afterpay
+            port:
+              number: 80
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: proposal.aandd.io
+  namespace: demo
+spec:
+  ingressClassName: kong
+  rules:
+  - host: proposal.aandd.io
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: proposal
+            port:
+              number: 80
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: virtual-tour.aandd.io
+  namespace: demo
+spec:
+  ingressClassName: kong
+  rules:
+  - host: virtual-tour.aandd.io
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: virtual-tour
+            port:
+              number: 80
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sonarqube.aandd.io
+  namespace: demo
+spec:
+  ingressClassName: kong
+  rules:
+  - host: sonarqube.aandd.io
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: sonarqube
+            port:
+              number: 80
